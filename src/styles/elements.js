@@ -7,6 +7,11 @@ export const Button = styled.button`
   padding: 10px 25px;
 `;
 
+export const ButtonSecondary = styled(Button)`
+  background-color: lightskyblue;
+  float: right;
+`;
+
 export const Section = styled.section`
   width: 50%;
   box-sizing: border-box;

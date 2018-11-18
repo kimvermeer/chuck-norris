@@ -38,7 +38,7 @@ export class List extends React.Component<Props> {
               {this.props.addToFavorites ? (
                 <CTA
                   disabled={this.props.isLimitReached}
-                  onClick={() => this.props.addToFavorites(index)}
+                  onClick={() => this.props.addToFavorites(joke)}
                 >
                   Fave!
                 </CTA>

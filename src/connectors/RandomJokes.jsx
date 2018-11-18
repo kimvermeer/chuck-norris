@@ -3,11 +3,16 @@ import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
 
 import List from '../components/List';
-import { Button } from '../styles/elements';
+import { Button, ButtonSecondary } from '../styles/elements';
 import type { State, Joke } from '../types';
 import { addJoke } from '../actions';
+import { getIsFavoritesLimitReached } from '../reducers/chuckReducer';
 
-export class RandomJokes extends React.Component<{}, State> {
+type Props = {
+  isLimitReached: boolean,
+};
+
+export class RandomJokes extends React.Component<Props, State> {
   constructor() {
     super();
 
@@ -18,24 +23,49 @@ export class RandomJokes extends React.Component<{}, State> {
 
     this.fetchJokes = this.fetchJokes.bind(this);
     this.addToFavorites = this.addToFavorites.bind(this);
+    this.useTimer = this.useTimer.bind(this);
   }
 
   async fetchJokes() {
-    this.setState({ isLoading: true });
-
     const resp = await fetch('http://api.icndb.com/jokes/random/10');
     const data = await resp.json();
 
-    this.setState({ jokes: data.value, isLoading: false });
+    this.setState({
+      jokes: data.value,
+      isLoading: false,
+      isTimerRunning: false,
+    });
   }
 
-  addToFavorites(index: number) {
-    this.props.addJoke(fromJS(this.state.jokes[index]));
+  addToFavorites(joke: Joke) {
+    this.props.addJoke(fromJS(joke));
+  }
+
+  useTimer() {
+    if (!this.state.isTimerRunning) {
+      this.favoritesInterval = setInterval(async () => {
+        if (this.props.isLimitReached) {
+          this.setState({
+            isTimerRunning: false,
+          });
+          clearInterval(this.favoritesInterval);
+          return;
+        }
+
+        const resp = await fetch('http://api.icndb.com/jokes/random/1');
+        const data = await resp.json();
+
+        this.addToFavorites(data.value[0]);
+      }, 5000);
+    } else {
+      clearInterval(this.favoritesInterval);
+    }
+    this.setState({ isTimerRunning: !this.state.isTimerRunning });
   }
 
   render() {
     if (!this.state.isLoading && !this.state.jokes.length) {
-      return <Button onClick={this.fetchJokes}>Joke me!</Button>;
+      return <Button onClick={this.fetchJokes}>Load jokes!</Button>;
     }
 
     if (this.state.isLoading) {
@@ -45,6 +75,9 @@ export class RandomJokes extends React.Component<{}, State> {
     return (
       <React.Fragment>
         <Button onClick={this.fetchJokes}>Refresh!</Button>
+        <ButtonSecondary onClick={this.useTimer}>
+          {this.state.isTimerRunning ? 'Cancel timer' : 'Start timer'}
+        </ButtonSecondary>
         <List
           jokes={fromJS(this.state.jokes)}
           addToFavorites={this.addToFavorites}
@@ -55,7 +88,9 @@ export class RandomJokes extends React.Component<{}, State> {
 }
 
 export default connect(
-  null,
+  state => ({
+    isLimitReached: getIsFavoritesLimitReached(state),
+  }),
   {
     addJoke,
   },
