@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fromJS } from 'immutable';
 
-import { List } from '../components/List';
+import List from '../components/List';
 import { Button } from '../styles/elements';
 import type { State, Joke } from '../types';
 import { addJoke } from '../actions';

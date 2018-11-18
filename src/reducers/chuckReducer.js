@@ -14,6 +14,9 @@ export const initialState = fromJS({
 
 export const getFavorites = state => state.chuck.get('favorites');
 
+export const getIsFavoritesLimitReached = state =>
+  state.chuck.get('favorites').size >= 10;
+
 export default (state = initialState, action: any) => {
   switch (action.type) {
     case JOKE.ADD:
@@ -36,7 +39,9 @@ export default (state = initialState, action: any) => {
       const newState = state
         .get('favorites')
         .filter(favorite => favorite.get('id') !== action.payload.id);
+
       localStorage.setItem('favoriteJokes', JSON.stringify(newState.toJS()));
+
       return state.set('favorites', newState);
     default:
       return state;

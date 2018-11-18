@@ -4,24 +4,16 @@ import { connect } from 'react-redux';
 import { List } from '../components/List';
 import { removeJoke } from '../actions';
 import { getFavorites } from '../reducers/chuckReducer';
+import { type Joke } from '../types';
 
-type State = {
-  isLoading: boolean,
-  jokes: Joke[],
+type Props = {
+  jokes: List<Joke>,
+  removeJoke: (id: string) => void,
 };
 
-type Joke = {
-  id: number,
-  joke: string,
-  categories: string[],
-};
-
-export class Favorites extends React.Component<Props, State> {
-  render() {
-    console.log(this.props.jokes);
-    return <List jokes={this.props.jokes} removeJoke={this.props.removeJoke} />;
-  }
-}
+export const Favorites = (props: Props) => (
+  <List jokes={props.jokes} removeJoke={props.removeJoke} />
+);
 
 export default connect(
   state => ({

@@ -1,13 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
+import { connect } from 'react-redux';
 
+import { getIsFavoritesLimitReached } from '../reducers/chuckReducer';
 import { Button } from '../styles/elements';
 import { type Joke } from '../types';
 
 type Props = {
-  jokes: Joke[],
-  addToFavorites?: (id: string) => void,
+  jokes: List<Joke>,
+  addToFavorites?: (joke: Joke) => void,
   removeJoke?: (id: string) => void,
+  isLimitReached: boolean,
 };
 
 const Ul = styled.ul`
@@ -33,7 +36,10 @@ export class List extends React.Component<Props> {
           <React.Fragment key={index}>
             <Li>
               {this.props.addToFavorites ? (
-                <CTA onClick={() => this.props.addToFavorites(index)}>
+                <CTA
+                  disabled={this.props.isLimitReached}
+                  onClick={() => this.props.addToFavorites(index)}
+                >
                   Fave!
                 </CTA>
               ) : (
@@ -49,3 +55,7 @@ export class List extends React.Component<Props> {
     );
   }
 }
+
+export default connect(state => ({
+  isLimitReached: getIsFavoritesLimitReached(state),
+}))(List);
