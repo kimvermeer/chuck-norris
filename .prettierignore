@@ -1,0 +1,8 @@
+/node_modules
+/bower_components
+/dist
+/flow-typed
+/packages/*/node_modules
+/packages/*/bower_components
+/packages/*/dist
+/packages/*/lib

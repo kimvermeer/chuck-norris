@@ -1,0 +1,41 @@
+{
+  "name": "chuckjokes",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/cli": "^7.1.5",
+    "@babel/core": "^7.1.6",
+    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
+    "@babel/polyfill": "^7.0.0",
+    "@babel/preset-env": "^7.1.6",
+    "@babel/preset-es2015": "^7.0.0-beta.53",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
+    "@storybook/react": "^4.0.6",
+    "babel-loader": "^8.0.0-beta.0",
+    "flow-bin": "^0.86.0",
+    "html-webpack-plugin": "^3.2.0",
+    "prettier": "1.15.2",
+    "webpack": "^4.25.1",
+    "webpack-serve": "^2.0.2"
+  },
+  "dependencies": {
+    "immutable": "^4.0.0-rc.12",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3",
+    "react-redux": "^5.1.1",
+    "redux": "^4.0.1",
+    "styled-components": "^4.1.1"
+  },
+  "scripts": {
+    "storybook": "start-storybook -p 6006 -c .storybook",
+    "start": "webpack-serve --config ./webpack.common.js",
+    "build": "babel --presets react --watch src/ --out-dir dist",
+    "prettier": "prettier --ignore-path ./.prettierignore --config ./.prettierrc --write '*/**/*.{js,jsx}'",
+    "flow": "flow"
+  }
+}
