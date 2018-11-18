@@ -1,7 +1,7 @@
-import { type Joke } from '../types';
+import { fromJS, toJS } from 'immutable';
+
 import { addJoke } from '../actions';
 import { JOKE } from '../constants';
-import { fromJS, toJS } from 'immutable';
 
 const localFavorites =
   localStorage && localStorage.getItem('favoriteJokes')
@@ -17,7 +17,7 @@ export const getFavorites = state => state.chuck.get('favorites');
 export const getIsFavoritesLimitReached = state =>
   state.chuck.get('favorites').size >= 10;
 
-export default (state = initialState, action: any) => {
+export default (state = initialState, action) => {
   switch (action.type) {
     case JOKE.ADD:
       if (

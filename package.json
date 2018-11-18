@@ -34,7 +34,6 @@
   "scripts": {
     "storybook": "start-storybook -p 6006 -c .storybook",
     "start": "webpack-serve --config ./webpack.common.js",
-    "build": "babel --presets react --watch src/ --out-dir dist",
     "prettier": "prettier --ignore-path ./.prettierignore --config ./.prettierrc --write '*/**/*.{js,jsx}'",
     "flow": "flow"
   }

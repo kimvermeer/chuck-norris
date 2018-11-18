@@ -1,18 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import type { List } from 'immutable';
 
-import { List } from '../components/List';
+import DisplayJokes from '../components/List';
 import { removeJoke } from '../actions';
 import { getFavorites } from '../reducers/chuckReducer';
-import { type Joke } from '../types';
+import type { JokeMap } from '../types';
 
 type Props = {
-  jokes: List<Joke>,
+  jokes: List<JokeMap>,
   removeJoke: (id: string) => void,
 };
 
 export const Favorites = (props: Props) => (
-  <List jokes={props.jokes} removeJoke={props.removeJoke} />
+  <DisplayJokes jokes={props.jokes} removeJoke={props.removeJoke} />
 );
 
 export default connect(

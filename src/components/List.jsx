@@ -1,15 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { type List } from 'immutable';
 
 import { getIsFavoritesLimitReached } from '../reducers/chuckReducer';
 import { Button } from '../styles/elements';
-import { type Joke } from '../types';
+import type { JokeMap } from '../types';
 
 type Props = {
-  jokes: List<Joke>,
-  addToFavorites?: (joke: Joke) => void,
-  removeJoke?: (id: string) => void,
+  jokes: List<JokeMap>,
+  addToFavorites: (joke: JokeMap) => void,
+  removeJoke: (id: string) => void,
   isLimitReached: boolean,
 };
 
@@ -27,22 +28,23 @@ const CTA = styled(Button)`
   margin-right: 10px;
 `;
 
-export class List extends React.Component<Props> {
+export class JokesList extends React.Component<Props> {
   render() {
     const { jokes } = this.props;
     return (
       <Ul>
-        {jokes.map((joke: Joke, index: number) => (
+        {jokes.map((joke: JokeMap, index: number) => (
           <React.Fragment key={index}>
             <Li>
-              {this.props.addToFavorites ? (
+              {!!this.props.addToFavorites && (
                 <CTA
                   disabled={this.props.isLimitReached}
                   onClick={() => this.props.addToFavorites(joke)}
                 >
                   Fave!
                 </CTA>
-              ) : (
+              )}
+              {!!this.props.removeJoke && (
                 <CTA onClick={() => this.props.removeJoke(joke.get('id'))}>
                   Remove
                 </CTA>
@@ -58,4 +60,4 @@ export class List extends React.Component<Props> {
 
 export default connect(state => ({
   isLimitReached: getIsFavoritesLimitReached(state),
-}))(List);
+}))(JokesList);

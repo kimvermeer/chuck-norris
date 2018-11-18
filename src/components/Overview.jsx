@@ -17,29 +17,25 @@ const Header = styled.header`
   text-align: center;
 `;
 
-export class Overview extends React.Component {
-  render() {
-    return (
-      <React.Fragment>
-        <GlobalStyle />
-        <Header>
-          <h1>Chuck Norris Jokes</h1>
-        </Header>
-        <main>
-          <Section>
-            <header>
-              <h1>Random Jokes</h1>
-            </header>
-            <RandomJokes />
-          </Section>
-          <Section>
-            <header>
-              <h1>My favorites</h1>
-            </header>
-            <Favorites />
-          </Section>
-        </main>
-      </React.Fragment>
-    );
-  }
-}
+export const Overview = () => (
+  <React.Fragment>
+    <GlobalStyle />
+    <Header>
+      <h1>Chuck Norris Jokes</h1>
+    </Header>
+    <main>
+      <Section>
+        <header>
+          <h1>Random Jokes</h1>
+        </header>
+        <RandomJokes />
+      </Section>
+      <Section>
+        <header>
+          <h1>My favorites</h1>
+        </header>
+        <Favorites />
+      </Section>
+    </main>
+  </React.Fragment>
+);
